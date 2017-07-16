@@ -1,0 +1,67 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:1:1-27:12
+	package
+		ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:2:5-36
+		INJECTED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml
+		INJECTED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml
+	android:versionName
+		ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:4:5-30
+		INJECTED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml
+		INJECTED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml
+	android:versionCode
+		ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:3:5-28
+		INJECTED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml
+		INJECTED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:1:11-69
+uses-sdk
+ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:6:5-8:41
+	android:targetSdkVersion
+		ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:8:9-38
+		INJECTED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml
+		INJECTED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:7:9-34
+		INJECTED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml
+		INJECTED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml
+uses-permission#android.permission.INTERNET
+ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:10:5-67
+	android:name
+		ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:10:22-64
+uses-permission#android.permission.BLUETOOTH
+ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:11:5-68
+	android:name
+		ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:11:22-65
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:12:5-81
+	android:name
+		ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:12:22-78
+uses-permission#android.permission.RECORD_AUDIO
+ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:13:5-71
+	android:name
+		ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:13:22-68
+application
+ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:14:5-26:19
+	android:label
+		ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:16:9-41
+	android:icon
+		ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:15:9-38
+	android:theme
+		ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:17:9-56
+activity#edu.mit.prg.soroprogo.SoroProgo
+ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:18:9-25:20
+	android:label
+		ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:20:13-45
+	android:name
+		ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:19:13-38
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:21:13-24:29
+action#android.intent.action.MAIN
+ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:22:17-69
+	android:name
+		ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:22:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:23:17-77
+	android:name
+		ADDED from /home/randi/projects/SoroProgo/app/src/main/AndroidManifest.xml:23:27-74

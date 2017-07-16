@@ -1,0 +1,30 @@
+#Internal package file, do not edit.
+#Thu Jul 13 18:16:55 EDT 2017
+2.base=/home/randi/projects/SoroProgo/app/build/intermediates/res/resources-debug.ap_
+5.file=/home/randi/projects/SoroProgo/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes.dex
+5.set=DEX
+3.base=/home/randi/projects/SoroProgo/app/build/intermediates/res/resources-debug.ap_
+6.file=/home/randi/projects/SoroProgo/app/build/intermediates/res/resources-debug.ap_/resources.arsc
+2.set=ANDROID_RESOURCE
+4.base=/home/randi/projects/SoroProgo/app/build/intermediates/res/resources-debug.ap_
+7.file=/home/randi/projects/SoroProgo/app/build/intermediates/res/resources-debug.ap_/res/menu/main.xml
+7.set=ANDROID_RESOURCE
+count=9
+0.file=/home/randi/projects/SoroProgo/app/build/intermediates/res/resources-debug.ap_/res/menu-v11/main.xml
+5.base=/home/randi/projects/SoroProgo/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main
+8.file=/home/randi/projects/SoroProgo/app/build/intermediates/res/resources-debug.ap_/res/layout/main.xml
+4.set=ANDROID_RESOURCE
+6.base=/home/randi/projects/SoroProgo/app/build/intermediates/res/resources-debug.ap_
+1.file=/home/randi/projects/SoroProgo/app/build/intermediates/res/resources-debug.ap_/res/drawable-xhdpi-v4/ic_action_search.png
+1.set=ANDROID_RESOURCE
+7.base=/home/randi/projects/SoroProgo/app/build/intermediates/res/resources-debug.ap_
+2.file=/home/randi/projects/SoroProgo/app/build/intermediates/res/resources-debug.ap_/res/drawable-xhdpi-v4/icon.png
+6.set=ANDROID_RESOURCE
+0.base=/home/randi/projects/SoroProgo/app/build/intermediates/res/resources-debug.ap_
+8.base=/home/randi/projects/SoroProgo/app/build/intermediates/res/resources-debug.ap_
+3.file=/home/randi/projects/SoroProgo/app/build/intermediates/res/resources-debug.ap_/res/drawable-xhdpi-v4/ic_launcher.png
+3.set=ANDROID_RESOURCE
+1.base=/home/randi/projects/SoroProgo/app/build/intermediates/res/resources-debug.ap_
+4.file=/home/randi/projects/SoroProgo/app/build/intermediates/res/resources-debug.ap_/AndroidManifest.xml
+8.set=ANDROID_RESOURCE
+0.set=ANDROID_RESOURCE
