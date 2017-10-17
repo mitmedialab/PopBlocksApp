@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.text.InputType;
 import android.util.Log;
 import android.webkit.ConsoleMessage;
@@ -35,6 +36,7 @@ public class SoroProgo extends Activity {
 
     IRCPUDPManager man = null;
     byte robotID;
+    String ID = "1";
     String TAG = "Soro progo";
     String logfile = "devicelog_";
     String savefile = "prog_";
@@ -82,7 +84,7 @@ public class SoroProgo extends Activity {
         browser.getSettings().setDomStorageEnabled(true);
         //Inject WebAppInterface methods into Web page by having Interface 'Android'
         browser.addJavascriptInterface(new WebAppInterface(this), "Android");
-        browser.clearCache(true);
+        browser.clearCache(false); // usually true
         browser.loadUrl("http://web.media.mit.edu/~randiw12/popr/scratch-blocks-develop/pop/index.html");
 
         // Get the directory for the user's public pictures directory.
@@ -123,26 +125,9 @@ public class SoroProgo extends Activity {
                 }
             });
             builder.show();*/
-            robotID = Byte.valueOf("2");
+            robotID = Byte.valueOf(ID);
             man = IRCPUDPManager.createWithSuggestedID(robotID, IRCPConstants.DRAGONBOT_TELEOP_ID);
             man.launch((int)Math.round(1/60.0 * 1000f));
-
-            /* TESTING RECORDER
-            AlertDialog.Builder recorder = new AlertDialog.Builder(this);
-            recorder.setTitle("Record Music");
-
-            // Set up the input
-            recorder.setPositiveButton("Record", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    startRecordAudio();
-                }
-            });
-            recorder.setNegativeButton("Stop", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    stopRecordAudio();
-                }
-            });
-            recorder.show();*/
         }
     }
 
@@ -332,28 +317,40 @@ public class SoroProgo extends Activity {
         }
     }
 
-    public void connectR1d1() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Enter ID:");
+    public void connectR1d1(int id) {
+        if(id <= 0) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Enter ID:");
 
-        // Set up the input
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_NUMBER);
-        builder.setView(input);
+            // Set up the input
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_CLASS_NUMBER);
+            builder.setView(input);
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                robotID = Byte.valueOf(input.getText().toString());
-                man.switchRobotID(robotID);
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    robotID = Byte.valueOf(input.getText().toString());
+                    man.switchRobotID(robotID);
+                    sendNewCommand("u01_3+100");
 
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            builder.show();
+        } else {
+            robotID = (byte) id;
+            man.switchRobotID(robotID);
+        }
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                sendNewCommand("u01_1+100 u01_3+100");
             }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        builder.show();
+        }, 2700); // found empirically, why so long?
     }
 
     public Integer countSavedRecordings() {
@@ -365,26 +362,6 @@ public class SoroProgo extends Activity {
         }
         Log.d(TAG, "Saved programs " + progCount.toString());
         return progCount;
-    }
-
-    public void startRecordAudio() {
-        Integer soundCount = countSavedRecordings();
-        File f = new File(dir, soundfile + soundCount + ".mp4");
-        soundRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        soundRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-        soundRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
-        soundRecorder.setOutputFile(f.getAbsolutePath());
-
-        try {
-            soundRecorder.prepare();
-            soundRecorder.start();
-        } catch (IOException e) {
-            Log.d(TAG, "Could not record audio");
-        }
-    }
-
-    public void stopRecordAudio() {
-        soundRecorder.stop();
     }
 
     public void update() {
@@ -444,7 +421,7 @@ public class SoroProgo extends Activity {
 
         public void addWedo() { addWedoBrick(); }
 
-        public void addRobot() {connectR1d1(); }
+        public void addRobot(int id) { connectR1d1(id); }
 
         public int numPrograms() { return countSavedPrograms(); }
 
