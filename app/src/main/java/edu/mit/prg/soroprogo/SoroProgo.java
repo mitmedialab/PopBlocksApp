@@ -1,11 +1,10 @@
 package edu.mit.prg.soroprogo;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -16,16 +15,11 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
-import android.media.MediaPlayer;
-import android.media.MediaRecorder;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStream;
 
 import prg.innards.appcore.android.AndroidSpecificResourceLocator;
 import prg.innards.network.ircp.IRCPConstants;
@@ -35,20 +29,15 @@ import prg.innards.network.ircp.IRCPUDPSender;
 public class SoroProgo extends Activity {
 
     IRCPUDPManager man = null;
-    byte robotID;
-    String ID = "1";
-    String TAG = "Soro progo";
-    String logfile = "devicelog_";
-    String savefile = "prog_";
-    String soundfile = "record_";
-    File dir;
-    Integer logCount = 1;
-    MediaRecorder soundRecorder;
+    public static byte robotID;
+    // TODO make a folder for each participant
+    public String pid;
+    private String ID = "1";
+    private File dir;
+    private String hostIP = "http://192.168.1.121:8080";
 
-    private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
-    // Requesting permission to RECORD_AUDIO
-    private boolean permissionToRecordAccepted = false;
-    private String [] permissions = {Manifest.permission.RECORD_AUDIO};
+    private static final String TAG = "Soro progo";
+    private static final String savefile = "prog_";
 
     public enum TRIGGERS {
         START, STOP;
@@ -84,21 +73,15 @@ public class SoroProgo extends Activity {
         browser.getSettings().setDomStorageEnabled(true);
         //Inject WebAppInterface methods into Web page by having Interface 'Android'
         browser.addJavascriptInterface(new WebAppInterface(this), "Android");
-        browser.clearCache(false); // usually true
+        browser.clearCache(false); // false will make it load everything faster, true is good for dev
         browser.loadUrl("http://web.media.mit.edu/~randiw12/popr/scratch-blocks-develop/pop/index.html");
 
-        // Get the directory for the user's public pictures directory.
+
+        // Get the directory for the user's public directory.
         dir = new File(Environment.getExternalStorageDirectory(), "soroprogo/");
         if (!dir.exists()) {
             dir.mkdirs();
         }
-        for (File f : dir.listFiles()) {
-            if (f.getName().startsWith(logfile)) {
-                logCount += 1;
-            }
-        }
-        soundRecorder = new MediaRecorder();
-
         launch();
     }
 
@@ -226,25 +209,46 @@ public class SoroProgo extends Activity {
         }
     }
 
-    public void setPolicy ( String policy ) {
-        IRCPUDPSender sender = IRCPUDPManager.getSenderForID(IRCPConstants.BEHAVIOR_MODULE_ID);
-        if (sender != null) {
-            sender.send(IRCPConstants.ANDROID.MAJOR_TYPE, IRCPConstants.ANDROID.AI_POLICY, policy);
-            Log.d(TAG, "sending policy: " + policy);
-        } else {
-            Log.e(TAG, "Sender equals null...did not send");
+    private boolean checkIP(String ip) {
+        String pieces[] = ip.split("\\.");
+        if (pieces.length == 4) {
+            boolean valid = true;
+            for (String piece : pieces) {
+                Integer val = Integer.parseInt(piece);
+                if ((val < 256 && val >= 10) | val == 0)
+                    valid = true;
+                else if (val < 10 && val > 0)
+                    valid = piece.charAt(0) != '0';
+                else
+                    valid = false;
+
+            }
+            return valid;
+        }
+        return false;
+    }
+
+    public void setIPAddress ( String ip_address ) {
+        if (checkIP(ip_address)) {
+            this.hostIP = "http://" + ip_address + ":8080";
+        }
+    }
+
+    public void setpid ( String id ) {
+        Log.d("TAG", "Set ID: " + id);
+        this.pid = id;
+
+        dir = new File(Environment.getExternalStorageDirectory(), "soroprogo/P" + this.pid + "/");
+        if (!dir.exists()) {
+            dir.mkdirs();
         }
     }
 
     public void logInteraction(String interaction) {
-        try {
-            File f = new File(dir, logfile + logCount.toString() + ".txt");
-            FileOutputStream outputStream = new FileOutputStream(f, true);
-            outputStream.write(interaction.getBytes());
-            outputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Intent logIntent = new Intent(this, LoggingService.class);
+        logIntent.putExtra(LoggingService.IP, hostIP);
+        logIntent.putExtra(LoggingService.MESSAGE, interaction);
+        startService(logIntent);
     }
 
     public Integer countSavedPrograms() {
@@ -427,7 +431,9 @@ public class SoroProgo extends Activity {
 
         public int numRecords() { return countSavedRecordings(); }
 
-        public void setAIPolicy(String policy) { setPolicy(policy); }
+        public void setIpAddress(String ip) { setIPAddress(ip); }
+
+        public void setPID(String id) { setpid(id); }
 
     }
 }
