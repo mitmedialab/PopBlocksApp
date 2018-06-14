@@ -335,7 +335,7 @@ public class SoroProgo extends Activity {
                 public void onClick(DialogInterface dialog, int which) {
                     robotID = Byte.valueOf(input.getText().toString());
                     man.switchRobotID(robotID);
-                    sendNewCommand("u01_3+100");
+                    //sendNewCommand("u01_3+100");
 
                 }
             });
